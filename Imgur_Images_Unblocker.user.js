@@ -4,6 +4,7 @@
 // @version      1.0
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur in the blocked countries
+// @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
 // @license      MIT
 //
 // @updateURL    https://greasyfork.org/scripts/558123-imgur-images-unblocker/code/Imgur%20Images%20Unblocker.meta.js
