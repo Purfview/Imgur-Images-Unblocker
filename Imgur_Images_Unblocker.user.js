@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.1
+// @version      1.2
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -19,6 +19,8 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+1.2 -    Fix: Wasn't working on doom9.
 
 1.1 -    Added support for http links.
 
@@ -50,6 +52,12 @@
   function startObserver() {
     new MutationObserver(unblock).observe(document.body, { childList: true, subtree: true });
   }
+
+  document.onreadystatechange = function() {
+    if (document.readyState === "interactive") {
+      unblock();
+    }
+  };
 
   document.addEventListener('DOMContentLoaded', startObserver);
 })();
