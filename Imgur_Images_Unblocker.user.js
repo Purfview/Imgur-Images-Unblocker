@@ -6,6 +6,8 @@
 // @description  Loads images from Imgur in the blocked countries
 // @license      MIT
 //
+// @updateURL    https://greasyfork.org/scripts/558123-imgur-images-unblocker/code/Imgur%20Images%20Unblocker.meta.js
+// @downloadURL  https://greasyfork.org/scripts/558123-imgur-images-unblocker/code/Imgur%20Images%20Unblocker.user.js
 // @homepage     https://github.com/Purfview/Imgur-Images-Unblocker
 // @supportURL   https://github.com/Purfview/Imgur-Images-Unblocker/issues
 //
