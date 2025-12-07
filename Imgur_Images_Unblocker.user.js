@@ -39,7 +39,6 @@
   const from2 = 'http://i.imgur.com';
   const to = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
   let onTimeout = false;
-  let runningDenied = false;
 
   function unblock() {
     $('img, a').each(function() {
