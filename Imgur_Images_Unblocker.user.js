@@ -35,7 +35,6 @@
   const from1 = 'https://i.imgur.com';
   const from2 = 'http://i.imgur.com';
   const to = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
-  let readyStateEcecutionTime = 0;
   let onTimeout = false;
 
   function unblock() {
@@ -60,7 +59,7 @@
         timer = setTimeout(() => {
           console.log("Imgur Images Unblocker: Mutation unblock() is executed!");
           unblock();
-        }, 50); // debounce delay, wait to settle mutations
+        }, 50); // debounce: time to wait after last mutation before calling unblock()
       } else {
           // console.log("Imgur Images Unblocker: Mutation unblock() is on timeout!");
       }
