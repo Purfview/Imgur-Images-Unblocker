@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.2
+// @version      1.3
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -20,6 +20,8 @@
 // ==/UserScript==
 /*=========================  Version History  ==================================
 
+1.3 -    Mitigate multiple unblock() executions
+
 1.2 -    Fix: Wasn't working on doom9.
 
 1.1 -    Added support for http links.
@@ -33,9 +35,10 @@
   const from1 = 'https://i.imgur.com';
   const from2 = 'http://i.imgur.com';
   const to = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
+  let readyStateEcecutionTime = 0;
+  let onTimeout = false;
 
   function unblock() {
-    console.log("Imgur Images Unblocker: Executed!");
     $('img, a').each(function() {
       const el = $(this);
       ['src', 'href'].forEach(a => {
@@ -50,14 +53,33 @@
   }
 
   function startObserver() {
-    new MutationObserver(unblock).observe(document.body, { childList: true, subtree: true });
+    let timer = null;
+    const observer = new MutationObserver(() => {
+      if (!onTimeout) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          console.log("Imgur Images Unblocker: Mutation unblock() is executed!");
+          unblock();
+        }, 50); // debounce delay, wait to settle mutations
+      } else {
+          // console.log("Imgur Images Unblocker: Mutation unblock() is on timeout!");
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   document.onreadystatechange = function() {
     if (document.readyState === "interactive") {
+      onTimeout = true;
+      console.log("Imgur Images Unblocker: readyState unblock() is executed!");
       unblock();
+
+      setTimeout(() => {
+        onTimeout = false;
+      }, 300); // timeout length for subsequent unblock() on mutations
     }
   };
 
   document.addEventListener('DOMContentLoaded', startObserver);
 })();
+
