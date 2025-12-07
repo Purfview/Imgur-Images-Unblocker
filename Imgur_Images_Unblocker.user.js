@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.3
+// @version      1.4
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -20,6 +20,9 @@
 // ==/UserScript==
 /*=========================  Version History  ==================================
 
+1.4 -    Prevent code running if Imgur images not found in a site's source code.
+         [Note: Some dynamic site would need an option disabling that]
+
 1.3 -    Mitigate multiple unblock() executions
 
 1.2 -    Fix: Wasn't working on doom9.
@@ -36,6 +39,7 @@
   const from2 = 'http://i.imgur.com';
   const to = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
   let onTimeout = false;
+  let runningDenied = false;
 
   function unblock() {
     $('img, a').each(function() {
@@ -59,7 +63,7 @@
         timer = setTimeout(() => {
           console.log("Imgur Images Unblocker: Mutation unblock() is executed!");
           unblock();
-        }, 50); // debounce: time to wait after last mutation before calling unblock()
+        }, 70); // debounce: time to wait after last mutation before calling unblock()
       } else {
           // console.log("Imgur Images Unblocker: Mutation unblock() is on timeout!");
       }
@@ -69,16 +73,25 @@
 
   document.onreadystatechange = function() {
     if (document.readyState === "interactive") {
-      onTimeout = true;
-      console.log("Imgur Images Unblocker: readyState unblock() is executed!");
-      unblock();
+      if (!document.documentElement.innerHTML.includes("//i.imgur.com")) {
+        console.log("Imgur Images Unblocker: Unblock not running: Imgur images not found!");
+        return;
+      } else {
+        onTimeout = true;
+        console.log("Imgur Images Unblocker: readyState unblock() is executed!");
+        unblock();
 
-      setTimeout(() => {
-        onTimeout = false;
-      }, 300); // timeout length for subsequent unblock() on mutations
+        setTimeout(() => {
+          onTimeout = false;
+        }, 300); // timeout length for subsequent unblock() on mutations
+
+        if (document.readyState === "complete") {
+          startObserver();
+        } else {
+          document.addEventListener('DOMContentLoaded', startObserver);
+        }
+      }
     }
   };
-
-  document.addEventListener('DOMContentLoaded', startObserver);
 })();
 
