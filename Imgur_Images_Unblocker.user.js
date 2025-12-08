@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.4
+// @version      1.5
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -19,6 +19,8 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+1.5 -    Fix: The script sometimes didn't excute.
 
 1.4 -    Prevent code running if Imgur images not found in a site's source code.
          [Note: Some dynamic site would need an option disabling that]
@@ -39,6 +41,7 @@
   const from2 = 'http://i.imgur.com';
   const to = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
   let onTimeout = false;
+  let isStarted = false;
 
   function unblock() {
     $('img, a').each(function() {
@@ -70,25 +73,32 @@
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
-  document.onreadystatechange = function() {
-    if (document.readyState === "interactive") {
-      if (!document.documentElement.innerHTML.includes("//i.imgur.com")) {
-        console.log("Imgur Images Unblocker: Unblock not running: Imgur images not found!");
-        return;
+  function mainFunc() {
+    if (!document.documentElement.innerHTML.includes("//i.imgur.com")) {
+      console.log("Imgur Images Unblocker: Unblock not running: Imgur images not found!");
+      return;
+    } else {
+      isStarted = true;
+      onTimeout = true;
+      console.log("Imgur Images Unblocker: readyState unblock() is executed!");
+      unblock();
+
+      setTimeout(() => {
+        onTimeout = false;
+      }, 300); // timeout length for subsequent unblock() on mutations
+
+      if (document.readyState === "complete") {
+        startObserver();
       } else {
-        onTimeout = true;
-        console.log("Imgur Images Unblocker: readyState unblock() is executed!");
-        unblock();
+        document.addEventListener('DOMContentLoaded', startObserver);
+      }
+    }
+  }
 
-        setTimeout(() => {
-          onTimeout = false;
-        }, 300); // timeout length for subsequent unblock() on mutations
-
-        if (document.readyState === "complete") {
-          startObserver();
-        } else {
-          document.addEventListener('DOMContentLoaded', startObserver);
-        }
+  document.onreadystatechange = function() {
+    if (!isStarted) {
+      if (document.readyState === "interactive" || document.readyState === "complete") {
+        mainFunc();
       }
     }
   };
