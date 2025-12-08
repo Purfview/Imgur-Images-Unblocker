@@ -20,7 +20,7 @@
 // ==/UserScript==
 /*=========================  Version History  ==================================
 
-1.5 -    Fix: The script sometimes didn't excute.
+1.5 -    Fix: The script sometimes didn't execute.
 
 1.4 -    Prevent code running if Imgur images not found in a site's source code.
          [Note: Some dynamic site would need an option disabling that]
