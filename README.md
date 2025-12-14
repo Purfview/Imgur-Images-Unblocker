@@ -3,7 +3,7 @@
 # Imgur-Images-Unblocker
 Loads images from Imgur in the blocked countries
 
-# Image for a test:
+## Image for a test:
 
 ![alt text](https://i.imgur.com/DYVm3u6.png) 
 
