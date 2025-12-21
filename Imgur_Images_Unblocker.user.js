@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.5
+// @version      1.6
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -20,6 +20,8 @@
 // ==/UserScript==
 /*=========================  Version History  ==================================
 
+1.6 -    Fix: On some sites Violentmonkey failed with "$(...) is null" error.
+
 1.5 -    Fix: The script sometimes didn't execute.
 
 1.4 -    Prevent code running if Imgur images not found in a site's source code.
@@ -37,6 +39,7 @@
 
 (function() {
   'use strict';
+  const $ = jQuery.noConflict();
   const from1 = 'https://i.imgur.com';
   const from2 = 'http://i.imgur.com';
   const to = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
