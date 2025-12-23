@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.6
+// @version      1.7
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -12,13 +12,13 @@
 // @homepage     https://github.com/Purfview/Imgur-Images-Unblocker
 // @supportURL   https://github.com/Purfview/Imgur-Images-Unblocker/issues
 //
-// @require      https://code.jquery.com/jquery-3.7.1.min.js
-//
 // @match        *://*/*
 // @run-at       document-start
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+1.7 -    Performance: Removed jQuery dependency.
 
 1.6 -    Fix: On some sites Violentmonkey failed with "$(...) is null" error.
 
@@ -39,7 +39,6 @@
 
 (function() {
   'use strict';
-  const $ = jQuery.noConflict();
   const from1 = 'https://i.imgur.com';
   const from2 = 'http://i.imgur.com';
   const to = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
@@ -47,14 +46,14 @@
   let isStarted = false;
 
   function unblock() {
-    $('img, a').each(function() {
-      const el = $(this);
+    const $$ = document.querySelectorAll.bind(document);
+    $$('img, a').forEach(el => {
       ['src', 'href'].forEach(a => {
-        const v = el.attr(a);
+        const v = el[a];
         if (v && v.startsWith(from1)) {
-          el.attr(a, v.replace(from1, to));
+          el[a] = v.replace(from1, to);
         } else if (v && v.startsWith(from2)) {
-          el.attr(a, v.replace(from2, to));
+          el[a] = v.replace(from2, to);
         }
       });
     });
