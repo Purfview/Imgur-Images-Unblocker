@@ -1,9 +1,9 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.7
+// @version      1.8
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
-// @description  Loads images from Imgur in the blocked countries
+// @description  Loads images from Imgur/PIXhost in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
 // @license      MIT
 //
@@ -17,6 +17,8 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+1.8 -    Added unblocking for PIXhost images too.
 
 1.7 -    Performance: Removed jQuery dependency.
 
@@ -41,7 +43,15 @@
   'use strict';
   const from1 = 'https://i.imgur.com';
   const from2 = 'http://i.imgur.com';
-  const to = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
+  const to  = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
+
+  const from3 = 'https://img1.pixhost.to';
+  const to3 = 'https://proxy.duckduckgo.com/iu/?u=https://img1.pixhost.to';
+  const from4 = 'https://img2.pixhost.to';
+  const to4 = 'https://proxy.duckduckgo.com/iu/?u=https://img2.pixhost.to';
+  const from5 = 'https://img3.pixhost.to';
+  const to5 = 'https://proxy.duckduckgo.com/iu/?u=https://img3.pixhost.to';
+
   let onTimeout = false;
   let isStarted = false;
 
@@ -54,6 +64,12 @@
           el[a] = v.replace(from1, to);
         } else if (v && v.startsWith(from2)) {
           el[a] = v.replace(from2, to);
+        } else if (v && v.startsWith(from3)) {
+          el[a] = v.replace(from3, to3);
+        } else if (v && v.startsWith(from4)) {
+          el[a] = v.replace(from4, to4);
+        } else if (v && v.startsWith(from5)) {
+          el[a] = v.replace(from5, to5);
         }
       });
     });
@@ -76,8 +92,13 @@
   }
 
   function mainFunc() {
-    if (!document.documentElement.innerHTML.includes("//i.imgur.com")) {
-      console.log("Imgur Images Unblocker: Unblock not running: Imgur images not found!");
+    if (
+        !document.documentElement.innerHTML.includes("//i.imgur.com") &&
+        !document.documentElement.innerHTML.includes("//img1.pixhost.to") &&
+        !document.documentElement.innerHTML.includes("//img2.pixhost.to") &&
+        !document.documentElement.innerHTML.includes("//img3.pixhost.to")
+       ) {
+      console.log("Imgur Images Unblocker: Unblock not running: Imgur/PIXhost images not found!");
       return;
     } else {
       isStarted = true;
