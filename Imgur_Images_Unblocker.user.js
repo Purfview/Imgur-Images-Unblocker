@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.8
+// @version      1.9
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur/PIXhost in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -17,6 +17,8 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+1.9 -    Fix: Background-image URLs set via inline style="background: url(...)"
 
 1.8 -    Added unblocking for PIXhost images too.
 
@@ -72,6 +74,21 @@
           el[a] = v.replace(from5, to5);
         }
       });
+    });
+
+    $$('[style*="i.imgur.com"], [style*="img1.pixhost.to"], [style*="img2.pixhost.to"], [style*="img3.pixhost.to"]').forEach(el => {
+      const bg = el.style.backgroundImage;
+      if (bg && bg.indexOf(from1) !== -1) {
+        el.style.backgroundImage = bg.split(from1).join(to);
+      } else if (bg && bg.indexOf(from2) !== -1) {
+        el.style.backgroundImage = bg.split(from2).join(to);
+      } else if (bg && bg.indexOf(from3) !== -1) {
+        el.style.backgroundImage = bg.split(from3).join(to3);
+      } else if (bg && bg.indexOf(from4) !== -1) {
+        el.style.backgroundImage = bg.split(from4).join(to4);
+      } else if (bg && bg.indexOf(from5) !== -1) {
+        el.style.backgroundImage = bg.split(from5).join(to5);
+      }
     });
   }
 
