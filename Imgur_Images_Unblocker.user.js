@@ -45,12 +45,12 @@
   const from2 = 'http://i.imgur.com';
   const to  = 'https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com';
 
-  const from3 = 'https://img1.pixhost.to';
-  const to3 = 'https://proxy.duckduckgo.com/iu/?u=https://img1.pixhost.to';
-  const from4 = 'https://img2.pixhost.to';
-  const to4 = 'https://proxy.duckduckgo.com/iu/?u=https://img2.pixhost.to';
-  const from5 = 'https://img3.pixhost.to';
-  const to5 = 'https://proxy.duckduckgo.com/iu/?u=https://img3.pixhost.to';
+  const from3 = 'https://img1.pixhost';
+  const to3 = 'https://proxy.duckduckgo.com/iu/?u=https://img1.pixhost';
+  const from4 = 'https://img2.pixhost';
+  const to4 = 'https://proxy.duckduckgo.com/iu/?u=https://img2.pixhost';
+  const from5 = 'https://img3.pixhost';
+  const to5 = 'https://proxy.duckduckgo.com/iu/?u=https://img3.pixhost';
 
   let onTimeout = false;
   let isStarted = false;
@@ -74,7 +74,7 @@
       });
     });
 
-    $$('[style*="i.imgur.com"], [style*="img1.pixhost.to"], [style*="img2.pixhost.to"], [style*="img3.pixhost.to"]').forEach(el => {
+    $$('[style*="i.imgur.com"], [style*="img1.pixhost"], [style*="img2.pixhost"], [style*="img3.pixhost"]').forEach(el => {
       const bg = el.style.backgroundImage;
       if (bg && bg.indexOf(from1) !== -1) {
         el.style.backgroundImage = bg.split(from1).join(to);
@@ -109,9 +109,9 @@
   function mainFunc() {
     if (
         !document.documentElement.innerHTML.includes("//i.imgur.com") &&
-        !document.documentElement.innerHTML.includes("//img1.pixhost.to") &&
-        !document.documentElement.innerHTML.includes("//img2.pixhost.to") &&
-        !document.documentElement.innerHTML.includes("//img3.pixhost.to")
+        !document.documentElement.innerHTML.includes("//img1.pixhost") &&
+        !document.documentElement.innerHTML.includes("//img2.pixhost") &&
+        !document.documentElement.innerHTML.includes("//img3.pixhost")
        ) {
       console.log("Imgur Images Unblocker: Unblock not running: Imgur/PIXhost images not found!");
       return;
