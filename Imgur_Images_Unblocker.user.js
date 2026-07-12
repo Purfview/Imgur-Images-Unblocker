@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      1.8
+// @version      1.9
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur/PIXhost in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -17,6 +17,9 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+1.9      Handle background images that are set via CSS
+         Support any TLD for PIXhost
 
 1.8 -    Added unblocking for PIXhost images too.
 
