@@ -94,6 +94,7 @@
 
     $$('[style*="i.imgur.com"], [style*="img1.pixhost"], [style*="img2.pixhost"], [style*="img3.pixhost"], [style*="t1.pixhost"], [style*="t2.pixhost"], [style*="t3.pixhost"]').forEach(el => {
       const bg = el.style.backgroundImage;
+      if (!bg || bg.includes('proxy.duckduckgo')) return; // Prevent nested proxy URLs since the style URL search isn't anchored to the start of the URL
       if (bg && bg.indexOf(from1) !== -1) {
         el.style.backgroundImage = bg.split(from1).join(to);
       } else if (bg && bg.indexOf(from2) !== -1) {
