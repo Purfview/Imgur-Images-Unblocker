@@ -54,6 +54,13 @@
   const to4 = 'https://proxy.duckduckgo.com/iu/?u=https://img2.pixhost';
   const from5 = 'https://img3.pixhost';
   const to5 = 'https://proxy.duckduckgo.com/iu/?u=https://img3.pixhost';
+  const from6 = 'https://t1.pixhost';
+  const to6 = 'https://proxy.duckduckgo.com/iu/?u=https://t1.pixhost';
+  const from7 = 'https://t2.pixhost';
+  const to7 = 'https://proxy.duckduckgo.com/iu/?u=https://t2.pixhost';
+  const from8 = 'https://t3.pixhost';
+  const to8 = 'https://proxy.duckduckgo.com/iu/?u=https://t3.pixhost';
+
 
   let onTimeout = false;
   let isStarted = false;
@@ -73,11 +80,17 @@
           el[a] = v.replace(from4, to4);
         } else if (v && v.startsWith(from5)) {
           el[a] = v.replace(from5, to5);
+        } else if (v && v.startsWith(from6)) {
+          el[a] = v.replace(from6, to6);
+        } else if (v && v.startsWith(from7)) {
+          el[a] = v.replace(from7, to7);
+        } else if (v && v.startsWith(from8)) {
+          el[a] = v.replace(from8, to8);
         }
       });
     });
 
-    $$('[style*="i.imgur.com"], [style*="img1.pixhost"], [style*="img2.pixhost"], [style*="img3.pixhost"]').forEach(el => {
+    $$('[style*="i.imgur.com"], [style*="img1.pixhost"], [style*="img2.pixhost"], [style*="img3.pixhost"], [style*="t1.pixhost"], [style*="t2.pixhost"], [style*="t3.pixhost"]').forEach(el => {
       const bg = el.style.backgroundImage;
       if (bg && bg.indexOf(from1) !== -1) {
         el.style.backgroundImage = bg.split(from1).join(to);
@@ -89,6 +102,12 @@
         el.style.backgroundImage = bg.split(from4).join(to4);
       } else if (bg && bg.indexOf(from5) !== -1) {
         el.style.backgroundImage = bg.split(from5).join(to5);
+      } else if (bg && bg.indexOf(from6) !== -1) {
+        el.style.backgroundImage = bg.split(from6).join(to6);
+      } else if (bg && bg.indexOf(from7) !== -1) {
+        el.style.backgroundImage = bg.split(from7).join(to7);
+      } else if (bg && bg.indexOf(from8) !== -1) {
+        el.style.backgroundImage = bg.split(from8).join(to8);
       }
     });
   }
@@ -114,7 +133,10 @@
         !document.documentElement.innerHTML.includes("//i.imgur.com") &&
         !document.documentElement.innerHTML.includes("//img1.pixhost") &&
         !document.documentElement.innerHTML.includes("//img2.pixhost") &&
-        !document.documentElement.innerHTML.includes("//img3.pixhost")
+        !document.documentElement.innerHTML.includes("//img3.pixhost") &&
+        !document.documentElement.innerHTML.includes("//t1.pixhost") &&
+        !document.documentElement.innerHTML.includes("//t2.pixhost") &&
+        !document.documentElement.innerHTML.includes("//t3.pixhost")
        ) {
       console.log("Imgur Images Unblocker: Unblock not running: Imgur/PIXhost images not found!");
       return;
