@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      2.0
+// @version      2.1
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur/PIXhost in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -17,6 +17,9 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+2.1 -    Changed the script initialization method.
+         Using document.onreadystatechange = function() is unsafe because it conflicts with other userscripts that use the same event.
 
 2.0 -    Reworked unblock() because PIXhost has few hundreds subdomain variations.
 
@@ -51,7 +54,6 @@
 (function() {
   'use strict';
   let onTimeout = false;
-  let isStarted = false;
   const proxy = 'https://proxy.duckduckgo.com/iu/?u=';
 
   function proxyUrl(url) {
@@ -113,29 +115,18 @@
       console.log("Imgur Images Unblocker: Unblock not running: Imgur/PIXhost images not found!");
       return;
     } else {
-      isStarted = true;
       onTimeout = true;
-      console.log("Imgur Images Unblocker: readyState unblock() is executed!");
+      console.log("Imgur Images Unblocker: DOMContentLoaded unblock() is executed!");
       unblock();
 
       setTimeout(() => {
         onTimeout = false;
       }, 300); // timeout length for subsequent unblock() on mutations
 
-      if (document.readyState === "complete") {
-        startObserver();
-      } else {
-        document.addEventListener('DOMContentLoaded', startObserver);
-      }
+      startObserver();
     }
   }
 
-  document.onreadystatechange = function() {
-    if (!isStarted) {
-      if (document.readyState === "interactive" || document.readyState === "complete") {
-        mainFunc();
-      }
-    }
-  };
+  document.addEventListener('DOMContentLoaded', mainFunc, { once: true });
 })();
 
