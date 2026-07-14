@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      2.1
+// @version      2.2
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur/PIXhost in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -17,6 +17,8 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+2.2 -    Refactor onTimeout var.
 
 2.1 -    Changed the script initialization method.
          Using document.onreadystatechange = function() is unsafe because it conflicts with other userscripts that use the same event.
@@ -53,7 +55,7 @@
 
 (function() {
   'use strict';
-  let onTimeout = false;
+  let onTimeout = true;
   const proxy = 'https://proxy.duckduckgo.com/iu/?u=';
 
   function proxyUrl(url) {
@@ -115,7 +117,6 @@
       console.log("Imgur Images Unblocker: Unblock not running: Imgur/PIXhost images not found!");
       return;
     } else {
-      onTimeout = true;
       console.log("Imgur Images Unblocker: DOMContentLoaded unblock() is executed!");
       unblock();
 
