@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      2.2
+// @version      2.3
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur/PIXhost in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -17,6 +17,8 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+2.3 -    Fixed bug with onTimeout var logic. [removed it]
 
 2.2 -    Refactor onTimeout var.
 
@@ -55,7 +57,6 @@
 
 (function() {
   'use strict';
-  let onTimeout = true;
   const proxy = 'https://proxy.duckduckgo.com/iu/?u=';
 
   function proxyUrl(url) {
@@ -96,15 +97,11 @@
   function startObserver() {
     let timer = null;
     const observer = new MutationObserver(() => {
-      if (!onTimeout) {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          console.log("Imgur Images Unblocker: Mutation unblock() is executed!");
-          unblock();
-        }, 70); // debounce: time to wait after last mutation before calling unblock()
-      } else {
-          // console.log("Imgur Images Unblocker: Mutation unblock() is on timeout!");
-      }
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        console.log("Imgur Images Unblocker: Mutation unblock() is executed!");
+        unblock();
+      }, 70); // debounce: time to wait after last mutation before calling unblock()
     });
     observer.observe(document.body, { childList: true, subtree: true });
   }
@@ -119,11 +116,6 @@
     } else {
       console.log("Imgur Images Unblocker: DOMContentLoaded unblock() is executed!");
       unblock();
-
-      setTimeout(() => {
-        onTimeout = false;
-      }, 300); // timeout length for subsequent unblock() on mutations
-
       startObserver();
     }
   }
