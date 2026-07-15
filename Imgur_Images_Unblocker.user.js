@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      2.3
+// @version      2.4
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur/PIXhost in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -17,6 +17,8 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+2.4 -    Added support for the direct links
 
 2.3 -    Fixed bug with onTimeout var logic. [removed it]
 
@@ -117,6 +119,14 @@
       console.log("Imgur Images Unblocker: DOMContentLoaded unblock() is executed!");
       unblock();
       startObserver();
+    }
+  }
+
+  const x = location.href;
+  if (x.endsWith(".png") || x.endsWith(".jpg") || x.endsWith(".jpeg") || x.endsWith(".gif") || x.endsWith(".webp")) {
+    if (!x.startsWith("https://proxy") && (x.includes("//i.imgur.com") || x.includes(".pixhost."))) {
+      window.location.assign(proxy + x);
+      return;
     }
   }
 
