@@ -1,7 +1,7 @@
 // ==UserScript==
 //
 // @name         Imgur Images Unblocker
-// @version      2.4
+// @version      2.5
 // @namespace    https://github.com/Purfview/Imgur-Images-Unblocker
 // @description  Loads images from Imgur/PIXhost in the blocked countries
 // @icon         https://proxy.duckduckgo.com/iu/?u=https://imgur.com/favicon.ico
@@ -17,6 +17,8 @@
 //
 // ==/UserScript==
 /*=========================  Version History  ==================================
+
+2.5 -    Convert thumbnailed PIXhost "/show/" links to direct links. [not in styles]
 
 2.4 -    Added support for the direct links
 
@@ -66,6 +68,13 @@
       return proxy + 'https://i.imgur.com' + url.slice('https://i.imgur.com'.length);
     } else if (url.startsWith('http://i.imgur.com')) {
         return proxy + 'https://i.imgur.com' + url.slice('http://i.imgur.com'.length);
+    } else if (url.match(/^https:\/\/pixhost\.[a-z.]+\/show\//)) {
+        const [, m] = url.match(/^https:\/\/pixhost\.[a-z.]+\/show\/(.+)$/);
+        const thumb = document.querySelector(`img[src*="thumbs/${m}"]`);
+        if (!thumb) return false;
+        const server = thumb.src.match(/t(\d+)\.pixhost\./);
+        if (!server) return false;
+        return proxy + `https://img${server[1]}.pixhost.to/images/${m}`;
     } else if (url.match(/^https:\/\/(?:[a-z]+\d*\.)?pixhost\./)) {
         return url.replace(/^https:\/\/(?:[a-z]+\d*\.)?pixhost\./, m => proxy + m);
     } else {
