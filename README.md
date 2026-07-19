@@ -5,7 +5,7 @@ Loads images from Imgur/PIXhost in the blocked countries
 
 ## Image for a test:
 
-![alt text](https://i.imgur.com/DYVm3u6.png) 
+![alt text](https://i.imgur.com/DYVm3u6.png?v=2) 
 
 ## Installing:
 
